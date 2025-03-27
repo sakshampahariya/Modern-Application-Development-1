@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block title %}Start Quiz - Quiz Master{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <div>
+                <h4>{{ quiz.chapter.subject.name }} - {{ quiz.chapter.name }}</h4>
+                <p class="text-muted">Time Limit: {{ quiz.time_duration }} minutes</p>
+            </div>
+            <div id="countdown" class="h4 text-danger"></div>
+        </div>
+        <div class="card-body">
+            <form method="POST" action="{{ url_for('submit_quiz', quiz_id=quiz.id) }}" id="quiz-form">
+
+                {% for question in quiz.questions %}
+                <div class="question-container p-3 mb-4 border rounded">
+                    <p class="fw-bold mb-3">{{ loop.index }}. {{ question.question_statement }}</p>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q{{ question.id }}" value="1" id="q{{ question.id }}_opt1" required>
+                                <label class="form-check-label" for="q{{ question.id }}_opt1">{{ question.option1 }}</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q{{ question.id }}" value="2" id="q{{ question.id }}_opt2">
+                                <label class="form-check-label" for="q{{ question.id }}_opt2">{{ question.option2 }}</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q{{ question.id }}" value="3" id="q{{ question.id }}_opt3">
+                                <label class="form-check-label" for="q{{ question.id }}_opt3">{{ question.option3 }}</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="q{{ question.id }}" value="4" id="q{{ question.id }}_opt4">
+                                <label class="form-check-label" for="q{{ question.id }}_opt4">{{ question.option4 }}</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                <button type="submit" class="btn btn-success btn-lg w-100">Submit Answers</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+<!-- timer for quiz by js -->
+{% block scripts %}
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        let timeRemaining = {{ quiz.time_duration }} * 60;
+        const timerElement = document.getElementById("countdown");
+        const quizForm = document.getElementById("quiz-form");
+
+        function updateCountdown() {
+            let minutes = Math.floor(timeRemaining / 60);
+            let seconds = timeRemaining % 60;
+            timerElement.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+            
+            if (timeRemaining <= 0) {
+                clearInterval(timerInterval);
+                quizForm.submit();
+            }
+            timeRemaining--;
+        }
+
+        const timerInterval = setInterval(updateCountdown, 1000);
+    });
+</script>
+{% endblock %}

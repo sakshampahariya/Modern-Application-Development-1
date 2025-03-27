@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block title %}view Scores{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <!-- Quiz Scores in a Card -->
+        <div class="col-md-8 mx-auto">
+            <div class="card shadow-sm">
+                <div class="card-header">
+                    <h2 class="mb-0 text-center">Your Quiz Scores</h2>
+                </div>
+                <div class="card-body">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">Quiz No.</th>
+                                <th scope="col">No. of Questions</th>
+                                <th scope="col">Date</th>
+                                <th scope="col">Duration (Minutes)</th>
+                                <th scope="col">Your Scores</th>
+                            </tr>
+                        </thead>
+                        <tbody class="table-group-divider">
+                            {% set quiz_counter = namespace(value=0) %}
+                            {% for subject in subjects %}
+                                {% for chapter in subject.chapters %}
+                                    {% for quiz in chapter.quizzes %}
+                                        {% set quiz_counter.value = quiz_counter.value + 1 %}
+                                        <tr>
+                                            <th scope="row">{{ quiz_counter.value }}</th>
+                                            <td>{{ quiz.questions|length }}</td>
+                                            <td>{{ quiz.date_of_quiz.strftime('%Y-%m-%d') }}</td>
+                                            <td>{{ quiz.time_duration }}</td>
+                                            <td>
+                                                {% if quiz.id in user_scores %}
+                                                    {{ user_scores[quiz.id] | join(", ") }}
+                                                {% else %}
+                                                    <span class="text-muted">Not Attempted</span>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                {% endfor %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %} Update Subject {% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h3>Update Subject</h3>
+
+    <form method="POST">
+        <input type="hidden" name="subject_id" value="{{ subject.id }}">
+
+        <div class="mb-3">
+            <label for="subject_name" class="form-label">Subject Name</label>
+            <input type="text" class="form-control" id="subject_name" name="subject_name" value="{{ subject.name }}" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="subject_desc" class="form-label">Description</label>
+            <textarea class="form-control" id="subject_desc" name="subject_desc" rows="3" required>{{ subject.description }}</textarea>
+        </div>
+
+        <button type="submit" class="btn btn-success">Save Changes</button>
+        <a href="{{ url_for('admindash') }}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}
