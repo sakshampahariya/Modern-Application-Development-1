@@ -15,7 +15,7 @@ plt.switch_backend('Agg')
 
 app= Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///quizmine.db'
-app.config['SECRET_KEY'] = '28d5972b820e8fe04b048c698fee0e7a'
+app.config['SECRET_KEY'] = 'your secret key here'
 db = SQLAlchemy(app)
 
 login_manager = LoginManager()
