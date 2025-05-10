@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+{% block title %}Edit Quiz{% endblock %}
+{% block content %}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg">
+                <div class="card-header bg-warning text-white">
+                    <h3 class="mb-0">Edit Quiz</h3>
+                </div>
+                <div class="card-body">
+                    <form method="POST">
+                        <div class="mb-3">
+                            <label for="chapter_id" class="form-label">Select Chapter</label>
+                            <select class="form-control" id="chapter_id" name="chapter_id" required>
+                                {% for chapter in chapters %}
+                                    <option value="{{ chapter.id }}" {% if chapter.id == quiz.chapter_id %}selected{% endif %}>
+                                        {{ chapter.name }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="date_of_quiz" class="form-label">Quiz Date</label>
+                            <input type="date" class="form-control" id="date_of_quiz" name="date_of_quiz" value="{{ quiz.date_of_quiz.strftime('%Y-%m-%d') }}" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="time_duration" class="form-label">Duration (minutes)</label>
+                            <input type="number" class="form-control" id="time_duration" name="time_duration" value="{{ quiz.time_duration }}" min="1" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="remarks" class="form-label">Remarks (Optional)</label>
+                            <textarea class="form-control" id="remarks" name="remarks">{{ quiz.remarks }}</textarea>
+                        </div>
+
+                        <h4 class="mt-4">Edit Questions</h4>
+                        <div id="questions-container">
+                            {% for question in quiz.questions %}
+                            <div class="question-block mb-3">
+                                <label class="form-label">Question:</label>
+                                <input type="text" class="form-control" name="question_statement[]" value="{{ question.question_statement }}" required>
+
+                                <label class="form-label mt-2">Options:</label>
+                                <input type="text" class="form-control mb-2" name="option1[]" value="{{ question.option1 }}" required>
+                                <input type="text" class="form-control mb-2" name="option2[]" value="{{ question.option2 }}" required>
+                                <input type="text" class="form-control mb-2" name="option3[]" value="{{ question.option3 }}" required>
+                                <input type="text" class="form-control mb-2" name="option4[]" value="{{ question.option4 }}" required>
+
+                                <label class="form-label">Correct Answer:</label>
+                                <select class="form-control" name="correct_option[]" required>
+                                    <option value="1" {% if question.correct_option == 1 %}selected{% endif %}>Option 1</option>
+                                    <option value="2" {% if question.correct_option == 2 %}selected{% endif %}>Option 2</option>
+                                    <option value="3" {% if question.correct_option == 3 %}selected{% endif %}>Option 3</option>
+                                    <option value="4" {% if question.correct_option == 4 %}selected{% endif %}>Option 4</option>
+                                </select>
+
+                                <button type="button" class="btn btn-danger mt-2 remove-question">Remove</button>
+                            </div>
+                            {% endfor %}
+                        </div>
+
+                        <button type="button" class="btn btn-info mt-3" id="add-question">Add Another Question</button>
+                        <button type="submit" class="btn btn-success w-100 mt-3">Update Quiz</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- js for the quiz remove question -->
+<script>
+    document.getElementById('add-question').addEventListener('click', function () {
+        let questionContainer = document.getElementById('questions-container');
+        let questionBlock = document.createElement('div');
+        questionBlock.classList.add('question-block', 'mb-3');
+        questionBlock.innerHTML = `
+            <label class="form-label">Question:</label>
+            <input type="text" class="form-control" name="question_statement[]" required>
+
+            <label class="form-label mt-2">Options:</label>
+            <input type="text" class="form-control mb-2" name="option1[]" placeholder="Option 1" required>
+            <input type="text" class="form-control mb-2" name="option2[]" placeholder="Option 2" required>
+            <input type="text" class="form-control mb-2" name="option3[]" placeholder="Option 3" required>
+            <input type="text" class="form-control mb-2" name="option4[]" placeholder="Option 4" required>
+
+            <label class="form-label">Correct Answer:</label>
+            <select class="form-control" name="correct_option[]" required>
+                <option value="1">Option 1</option>
+                <option value="2">Option 2</option>
+                <option value="3">Option 3</option>
+                <option value="4">Option 4</option>
+            </select>
+
+            <button type="button" class="btn btn-danger mt-2 remove-question">Remove</button>
+        `;
+        questionContainer.appendChild(questionBlock);
+    });
+
+    document.getElementById('questions-container').addEventListener('click', function (e) {
+        if (e.target.classList.contains('remove-question')) {
+            e.target.parentElement.remove();
+        }
+    });
+</script>
+
+{% endblock %}

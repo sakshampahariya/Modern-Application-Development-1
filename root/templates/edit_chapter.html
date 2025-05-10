@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %} Edit Chapter {% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h3>Edit Chapter</h3>
+    <form method="POST">
+        <div class="mb-3">
+            <label for="name" class="form-label">Chapter Name</label>
+            <input type="text" class="form-control" id="name" name="name" value="{{ chapter.name }}" required>
+        </div>
+        <div class="mb-3">
+            <label for="description" class="form-label">Chapter Description</label>
+            <textarea class="form-control" id="description" name="description" rows="3">{{ chapter.description }}</textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Update Chapter</button>
+        <a href="{{ url_for('admindash') }}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}

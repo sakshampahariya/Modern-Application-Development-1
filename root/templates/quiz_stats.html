@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}Quiz Stats{% endblock %}
+{% block content %}
+<div class="container d-flex justify-content-center mt-5">
+    <div class="card shadow-lg col-md-9 p-4">
+        <div class="card-body text-center">
+            <h1 class="fw-bold mb-4">Quiz Statistics</h1> <!-- Large Heading -->
+            <div class="row">
+                <div class="col-md-6">
+                    <h5 class="text-muted">Subject-wise Quiz Attempts</h5> 
+                    <img src="{{ subject_chart }}" class="img-fluid" alt="Subject Chart">
+                </div>
+                <div class="col-md-6">
+                    <h5 class="text-muted">Month-wise Quiz Attempts</h5> 
+                    <img src="{{ month_chart }}" class="img-fluid" alt="Month Chart">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

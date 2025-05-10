@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block title %}View Quiz{% endblock %}
+
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center">
+    <div class="card shadow-lg" style="width: 450px;">
+        <div class="card-header text-white bg-secondary text-center">
+            <h4>Quiz Details</h4>
+        </div>
+        <div class="card-body text-center">
+            <div class="row mb-3">
+                <div class="col-6"><strong>Subject:</strong></div>
+                <div class="col-6">{{quiz.chapter.subject.name}}</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-6"><strong>Chapter:</strong></div>
+                <div class="col-6">{{quiz.chapter.name}}</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-6"><strong>Number of Questions:</strong></div>
+                <div class="col-6">{{quiz.questions|length}}</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-6"><strong>Scheduled Date:</strong></div>
+                <div class="col-6">{{quiz.date_of_quiz.strftime('%d-%m-%Y')}}</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-6"><strong>Duration (mm:ss):</strong></div>
+                <div class="col-6">{{quiz.time_duration}}</div>
+            </div>
+            <div class="mt-3">
+                <a href="{{ url_for('user_dash') }}" class="btn btn-primary">Close</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

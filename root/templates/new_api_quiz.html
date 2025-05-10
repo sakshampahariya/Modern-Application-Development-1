@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Create New Quiz Using API</h2>
+    
+    <form method="POST">
+        <div class="form-group">
+            <label for="chapter_id">Select Chapter:</label>
+            <select class="form-control" id="chapter_id" name="chapter_id" required>
+                {% for chapter in chapters %}
+                <option value="{{ chapter.id }}">{{ chapter.name }} ({{ chapter.subject.name }})</option>
+                {% endfor %}
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="date_of_quiz">Date of Quiz:</label>
+            <input type="date" class="form-control" id="date_of_quiz" name="date_of_quiz" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="time_duration">Time Duration (minutes):</label>
+            <input type="number" class="form-control" id="time_duration" name="time_duration" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="remarks">Remarks:</label>
+            <textarea class="form-control" id="remarks" name="remarks" rows="3"></textarea>
+        </div>
+        
+        <h4 class="mt-4">API Question Settings</h4>
+        
+        <div class="form-group">
+            <label for="question_amount">Number of Questions:</label>
+            <input type="number" class="form-control" id="question_amount" name="question_amount" value="10" min="1" max="50" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="api_category">Category (Optional):</label>
+            <select class="form-control" id="api_category" name="api_category">
+                <option value="">Any Category</option>
+                <option value="9">General Knowledge</option>
+                <option value="10">Entertainment: Books</option>
+                <option value="11">Entertainment: Film</option>
+                <option value="12">Entertainment: Music</option>
+                <option value="17">Science & Nature</option>
+                <option value="18">Science: Computers</option>
+                <option value="19">Science: Mathematics</option>
+                <option value="21">Sports</option>
+                <option value="22">Geography</option>
+                <option value="23">History</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="api_difficulty">Difficulty (Optional):</label>
+            <select class="form-control" id="api_difficulty" name="api_difficulty">
+                <option value="">Any Difficulty</option>
+                <option value="easy">Easy</option>
+                <option value="medium">Medium</option>
+                <option value="hard">Hard</option>
+            </select>
+        </div>
+        
+        <button type="submit" class="btn btn-primary mt-3">Create Quiz</button>
+    </form>
+</div>
+{% endblock %}
